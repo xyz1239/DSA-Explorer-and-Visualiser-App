@@ -1,8 +1,6 @@
 """
 DSA Explorer and Visualiser
 Main Menu Skeleton
-
-Group Project - ST2 Assignment 2
 """
 
 import pygame
@@ -189,12 +187,11 @@ def placeholder_screen(surface, title, colour):
 
 #  MODULE ENTRY POINTS
 #  Import and call your real modules here
-
-
 def run_data_structures():
     """Phase 1 — Stack, Queue, Linked List, BST."""
-    # TODO: from data_structures_module import run; run(screen, clock)
-    _placeholder_loop("Data Structures", MODULE_COLOURS["Data Structures"])
+    from Data_Structures_module import run
+
+    run(screen, clock)
 
 
 def run_sorting():
