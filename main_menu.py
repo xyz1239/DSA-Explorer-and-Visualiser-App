@@ -208,8 +208,9 @@ def run_graphs():
 
 def run_heap():
     """Phase 2 — Heap insertion / extraction."""
-    # TODO: from heap_module import run; run(screen, clock)
-    _placeholder_loop("Heap", MODULE_COLOURS["Heap"])
+    from heap_module import run
+
+    run(screen, clock)
 
 
 def run_puzzles():
