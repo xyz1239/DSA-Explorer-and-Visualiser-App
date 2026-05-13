@@ -31,7 +31,7 @@ from utils import (
     InputBox,
 )
 
-# ── Module-level globals (set by run()) ──────────────────────────────────────
+# Module-level globals (set by run())
 screen = None
 clock = None
 

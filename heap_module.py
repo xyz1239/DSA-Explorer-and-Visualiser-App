@@ -31,7 +31,7 @@ from utils import (
     InputBox,
 )
 
-# ── Module-level globals (set by run()) ──────────────────────────────────────
+# Module-level globals (set by run())
 screen = None
 clock = None
 
@@ -43,7 +43,7 @@ MODULE_COLOUR = (220, 100, 200)
 identity = lambda x: x
 
 
-# ── Heap Logic ────────────────────────────────────────────────────────────────
+# Heap Logic
 class MaxHeap(object):
     def __init__(self, key=identity) -> None:
         self._arr = [None]
@@ -122,7 +122,7 @@ class MaxHeap(object):
         return self._arr[: self._nItems]
 
 
-# ── Visualisation ─────────────────────────────────────────────────────────────
+# Visualisation
 def draw_heap_tree(surface, heap, highlighted=None):
     """
     Draw the heap as a binary tree.
@@ -187,7 +187,7 @@ def draw_heap_tree(surface, heap, highlighted=None):
     surface.blit(arr_surf, (WIDTH // 2 - arr_surf.get_width() // 2, HEIGHT - 60))
 
 
-# ── Interactive visualiser ────────────────────────────────────────────────────
+# Interactive visualiser
 def Int_Heap():
     colour = MODULE_COLOUR
     heap = MaxHeap()
@@ -243,7 +243,7 @@ def Int_Heap():
         clock.tick(FPS)
 
 
-# ── Entry point ───────────────────────────────────────────────────────────────
+# Entry point
 def run(ext_screen, ext_clock):
     """Called by main_menu.py when the Heap button is clicked."""
     global screen, clock, font_node

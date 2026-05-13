@@ -196,8 +196,9 @@ def run_data_structures():
 
 def run_sorting():
     """Phase 2 — Bubble, Selection, Merge sort."""
-    # TODO: from sorting_module import run; run(screen, clock)
-    _placeholder_loop("Sorting", MODULE_COLOURS["Sorting"])
+    from sorting_module import run
+
+    run(screen, clock)
 
 
 def run_graphs():
