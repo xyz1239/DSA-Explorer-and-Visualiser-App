@@ -203,8 +203,9 @@ def run_sorting():
 
 def run_graphs():
     """Phase 2 — BFS / DFS graph traversal."""
-    # TODO: from graphs_module import run; run(screen, clock)
-    _placeholder_loop("Graphs", MODULE_COLOURS["Graphs"])
+    from Graphs import run
+
+    run (screen, clock)
 
 
 def run_heap():
