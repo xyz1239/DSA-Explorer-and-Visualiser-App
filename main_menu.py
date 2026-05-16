@@ -216,8 +216,9 @@ def run_heap():
 
 def run_puzzles():
     """Phase 3 — Pathfinding, Event Simulator, DP puzzle."""
-    # TODO: from puzzles_module import run; run(screen, clock)
-    _placeholder_loop("Puzzles", MODULE_COLOURS["Puzzles"])
+    from puzzles_module import run
+
+    run(screen, clock)
 
 
 def _placeholder_loop(title, colour):
