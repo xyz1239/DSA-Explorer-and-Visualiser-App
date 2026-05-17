@@ -11,7 +11,7 @@ import unittest
 # PHASE 1 — DATA STRUCTURES
 
 
-# Import logic classes only — no Pygame needed for unit tests
+# Import logic classes only
 from Data_Structures_module import Stack, Queue, LinkedList, BST
 
 
@@ -30,7 +30,7 @@ class TestStack(unittest.TestCase):
         s.push("A")
         s.push("B")
         s.push("C")
-        self.assertEqual(s.pop(), "C")  # LIFO — last in first out
+        self.assertEqual(s.pop(), "C")
         self.assertEqual(s.pop(), "B")
         self.assertEqual(len(s.stack), 1)
         self.assertEqual(s.stack[0], "A")
@@ -132,7 +132,7 @@ class TestLinkedList(unittest.TestCase):
         """Insert node with value 10 — node should be present in correct location."""
         ll = LinkedList()
         ll.insert(1)
-        ll.insert(10)  # position 2 (0-indexed: position 1)
+        ll.insert(10)
         ll.insert(3)
         result = ll.to_list()
         self.assertIn(10, result)
@@ -165,7 +165,7 @@ class TestLinkedList(unittest.TestCase):
         """Deleting a value not in list should not raise an error."""
         ll = LinkedList()
         ll.insert(1)
-        ll.delete(99)  # should do nothing
+        ll.delete(99)
         self.assertEqual(ll.to_list(), [1])
 
     def test_reverse(self):
@@ -416,6 +416,114 @@ class TestMaxHeap(unittest.TestCase):
             h.insert_heap(v)
         self.assertEqual(len(h), 20)
         self.assertEqual(h._arr[0], 19)
+
+
+# PHASE 2 — GRAPH TRAVERSAL
+
+
+from Graphs import Graph, bfs_steps, dfs_steps, build_demo_graph
+
+
+class TestGraph(unittest.TestCase):
+    """Tests for Graph structure, BFS and DFS traversal."""
+
+    def _run_to_completion(self, gen):
+        """Exhaust a traversal generator and return final visited set."""
+        current, frontier, visited = None, [], set()
+        for current, frontier, visited in gen:
+            pass
+        return current, visited
+
+    def setUp(self):
+        """Build a fresh demo graph for each test."""
+        self.g = build_demo_graph()
+
+    # Graph structure
+
+    def test_vertices_exist(self):
+        """Demo graph should contain vertices A, B, C, D."""
+        for v in ["A", "B", "C", "D"]:
+            self.assertIn(v, self.g.graph)
+
+    def test_edges_correct(self):
+        """Edges should match the defined adjacency list."""
+        self.assertIn("B", self.g.graph["A"])
+        self.assertIn("C", self.g.graph["B"])
+        self.assertIn("A", self.g.graph["C"])
+        self.assertIn("D", self.g.graph["C"])
+
+    def test_add_vertex(self):
+        """Adding a new vertex should appear in the graph."""
+        self.g.add_vertex("E")
+        self.assertIn("E", self.g.graph)
+
+    def test_add_edge(self):
+        """Adding an edge should update the adjacency list."""
+        self.g.add_vertex("E")
+        self.g.add_edge("D", "E")
+        self.assertIn("E", self.g.graph["D"])
+
+    def test_directed_edge_one_way(self):
+        """Directed graph edges should only go one way."""
+        # A→B exists but B→A should not
+        self.assertIn("B", self.g.graph["A"])
+        self.assertNotIn("A", self.g.graph["B"])
+
+    # BFS
+
+    def test_bfs_from_a_visits_all(self):
+        """BFS from A should visit all reachable nodes."""
+        _, visited = self._run_to_completion(bfs_steps(self.g, "A"))
+        self.assertEqual(visited, {"A", "B", "C", "D"})
+
+    def test_bfs_visits_in_correct_order(self):
+        """BFS from A — B should be visited before C and D."""
+        order = []
+        seen = set()
+        for current, frontier, visited in bfs_steps(self.g, "A"):
+            if current not in seen:
+                order.append(current)
+                seen.add(current)
+        # A→B first, then B→C, then C→D
+        self.assertEqual(order[0], "A")
+        self.assertLess(order.index("B"), order.index("C"))
+        self.assertLess(order.index("C"), order.index("D"))
+
+    def test_bfs_from_d_visits_only_d(self):
+        """BFS from D should only visit D (no outgoing edges)."""
+        _, visited = self._run_to_completion(bfs_steps(self.g, "D"))
+        self.assertEqual(visited, {"D"})
+
+    def test_bfs_restarts_from_new_node(self):
+        """BFS restarted from C should visit C, A, B, D."""
+        _, visited = self._run_to_completion(bfs_steps(self.g, "C"))
+        self.assertEqual(visited, {"C", "A", "B", "D"})
+
+    # DFS
+
+    def test_dfs_from_a_visits_all(self):
+        """DFS from A should visit all reachable nodes."""
+        _, visited = self._run_to_completion(dfs_steps(self.g, "A"))
+        self.assertEqual(visited, {"A", "B", "C", "D"})
+
+    def test_dfs_from_c_visits_all_reachable(self):
+        """DFS from C should visit C, A, B, D (C→A→B→C cycle handled)."""
+        _, visited = self._run_to_completion(dfs_steps(self.g, "C"))
+        self.assertEqual(visited, {"C", "A", "B", "D"})
+
+    def test_dfs_from_d_visits_only_d(self):
+        """DFS from D should only visit D (no outgoing edges)."""
+        _, visited = self._run_to_completion(dfs_steps(self.g, "D"))
+        self.assertEqual(visited, {"D"})
+
+    def test_dfs_no_repeated_visits(self):
+        """DFS should never visit the same node twice."""
+        seen = []
+        for current, _, visited in dfs_steps(self.g, "A"):
+            seen.append(current)
+        # Each node should appear as current at most once
+        unique = list(dict.fromkeys(seen))
+        self.assertEqual(len(unique), len(set(unique)))
 
 
 # PHASE 3 — PATHFINDING + DP

@@ -157,34 +157,6 @@ def draw_main_menu(surface, buttons, mouse_pos):
     surface.blit(footer, (WIDTH // 2 - footer.get_width() // 2, HEIGHT - 30))
 
 
-# PLACEHOLDER MODULE SCREENS
-# (Replace each with your real module)
-# Delete later
-def placeholder_screen(surface, title, colour):
-    """Generic placeholder shown until a module is built."""
-    draw_background(surface)
-
-    # Module title banner
-    banner = pygame.Rect(0, 0, WIDTH, 70)
-    pygame.draw.rect(surface, BG_PANEL, banner)
-    pygame.draw.line(surface, colour, (0, 70), (WIDTH, 70), 2)
-
-    title_surf = font_title.render(title, True, colour)
-    surface.blit(title_surf, (40, 15))
-
-    # Body message
-    msg1 = font_button.render("Module not yet implemented.", True, TEXT_PRIMARY)
-    msg2 = font_subtitle.render(
-        "Build your visualisation here and replace this placeholder.", True, TEXT_MUTED
-    )
-    surface.blit(msg1, (WIDTH // 2 - msg1.get_width() // 2, HEIGHT // 2 - 30))
-    surface.blit(msg2, (WIDTH // 2 - msg2.get_width() // 2, HEIGHT // 2 + 10))
-
-    # Back hint
-    hint = font_small.render("Press ESC to return to the main menu", True, TEXT_MUTED)
-    surface.blit(hint, (WIDTH // 2 - hint.get_width() // 2, HEIGHT - 35))
-
-
 #  MODULE ENTRY POINTS
 #  Import and call your real modules here
 def run_data_structures():
@@ -205,7 +177,7 @@ def run_graphs():
     """Phase 2 — BFS / DFS graph traversal."""
     from Graphs import run
 
-    run (screen, clock)
+    run(screen, clock)
 
 
 def run_heap():
@@ -220,22 +192,6 @@ def run_puzzles():
     from puzzles_module import run
 
     run(screen, clock)
-
-
-def _placeholder_loop(title, colour):
-    """Inner event loop for placeholder screens — returns to menu on ESC."""
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                running = False  # return to main menu
-
-        placeholder_screen(screen, title, colour)
-        pygame.display.flip()
-        clock.tick(FPS)
 
 
 # DISPATCH TABLE  (maps button label → function)
