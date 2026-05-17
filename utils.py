@@ -20,16 +20,16 @@ from main_menu import (
     font_small,
 )
 
-# ── Shared colours not in main_menu ──────────────────────────────────────────
+# Shared colours not in main_menu
 WARNING = (255, 200, 80)
-DANGER  = (255, 80, 80)
+DANGER = (255, 80, 80)
 
-# ── Shared dimensions ─────────────────────────────────────────────────────────
+# Shared dimensions
 WIDTH, HEIGHT = 900, 650
 FPS = 60
 
 
-# ── Drawing helpers ───────────────────────────────────────────────────────────
+# Drawing helpers
 def draw_text(surface, text, font, colour, pos):
     """Blit text at a given (x, y) position."""
     rendered = font.render(text, True, colour)
@@ -72,14 +72,14 @@ def draw_status(surface, message, colour=None):
     surface.blit(msg, (WIDTH // 2 - msg.get_width() // 2, HEIGHT - 36))
 
 
-# ── Button ────────────────────────────────────────────────────────────────────
+# Button
 class Button:
     """Styled button with hover glow and accent bar."""
 
     def __init__(self, label, rect, colour):
-        self.label   = label
-        self.rect    = pygame.Rect(rect)
-        self.colour  = colour
+        self.label = label
+        self.rect = pygame.Rect(rect)
+        self.colour = colour
         self.hovered = False
 
     def draw(self, surface):
@@ -87,7 +87,9 @@ class Button:
             glow = pygame.Surface(
                 (self.rect.width + 8, self.rect.height + 8), pygame.SRCALPHA
             )
-            pygame.draw.rect(glow, (*self.colour, 60), glow.get_rect(), border_radius=14)
+            pygame.draw.rect(
+                glow, (*self.colour, 60), glow.get_rect(), border_radius=14
+            )
             surface.blit(glow, (self.rect.x - 4, self.rect.y - 4))
 
         body_colour = (
@@ -115,14 +117,14 @@ class Button:
         )
 
 
-# ── InputBox ──────────────────────────────────────────────────────────────────
+# InputBox
 class InputBox:
     """Text input field with label, cursor, and enter-to-submit."""
 
     def __init__(self, x, y, w, h, label=""):
-        self.rect   = pygame.Rect(x, y, w, h)
-        self.label  = label
-        self.text   = ""
+        self.rect = pygame.Rect(x, y, w, h)
+        self.label = label
+        self.text = ""
         self.active = False
 
     def handle_event(self, event):
@@ -131,7 +133,9 @@ class InputBox:
         if event.type == pygame.KEYDOWN and self.active:
             if event.key == pygame.K_BACKSPACE:
                 self.text = self.text[:-1]
-            elif event.key not in (pygame.K_RETURN, pygame.K_TAB) and len(self.text) < 8:
+            elif (
+                event.key not in (pygame.K_RETURN, pygame.K_TAB) and len(self.text) < 8
+            ):
                 self.text += event.unicode
         return (
             self.active
